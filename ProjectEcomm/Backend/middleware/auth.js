@@ -1,19 +1,21 @@
 const jwt = require('jsonwebtoken');
-const authorise= (req,res,next)=>{
-    const token = req.header('Authorization');
-    const bearerWord = token.split(' ')[0].trim();
-    const bearerToken = token.split(' ')[1];
-    if(bearerWord!= "Bearer")
-        return res.status(401).send({message: 'Invalid token'});
-    if(!bearerToken)
-        return res.status(401).send({message: 'Token not provided'});
-    try{
-        const decode = jwt.verify(bearerToken,"key");
-        req.user = decode.userId;
+exports.auth = (req, res, next) => {
+    let token = req.header('Authorization');
+    if (!token) {
+        return res.status(401).json({ msg: 'No token, authorization denied' });
+    }
+    try {
+        token = token.split(' ')[1];
+        const decoded = jwt.verify(token, 'your_jwt_secret_key');
+        req.user = decoded;
         next();
+    } catch (err) {
+        res.status(401).json({ msg: 'Token is not valid' });
     }
-    catch(err){
-        return res.status(400).send({message: 'Token invalid'});
+};
+exports.admin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ msg: 'Access denied, admin only' });
     }
-}
-module.exports = authorise;
+    next();
+};

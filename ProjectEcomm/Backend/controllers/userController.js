@@ -1,49 +1,58 @@
-const userModel = require("../models/userModel");
-const jwt = require("jsonwebtoken");
+const userModel = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
 async function register(req, res) {
-  console.log(req.body);
-  const { name, email, password, mobile_number, role } = req.body;
-  try {
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      const newUser = new userModel({
-        name,
-        email,
-        password,
-        mobile_number,
-        role,
-      });
-
-      await newUser.save();
-
-      res.status(201).json({ message: "User registered successfully" });
-    } else {
-      res.status(400).json("User already exists");
+    const { name, email, password, mobile_number, role } = req.body;
+    try {
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            const newUser = new userModel({
+                name,
+                email,
+                password,
+                mobile_number,
+                role,
+            });
+            await newUser.save();
+            res.status(201).json({ message: "User registered successfully", success: true });
+        } else {
+            res.status(400).json({ error: "User already exists", success: false });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message, success: false });
     }
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
 }
 
-
 async function login(req, res) {
-  console.log(req.body);
-  try {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(400).send({ error: "Invalid Email or Password" });
+    try {
+        const user = await userModel.findOne({ email });
+        if (!user || !(await user.comparepassword(password))) {
+            return res.status(400).json({ error: "Invalid Email or Password" });
+        }
+        const token = jwt.sign({ _id: user._id, role: user.role }, 'your_jwt_secret_key', { expiresIn: '1h' });
+        res.status(200).json({ user, access: token, success: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message, success: false });
     }
-    const token = jwt.sign({ _id: user._id }, "key", { expiresIn: "1h" });
-    res.status(200).send({ user, token });
-  } catch (error) {
-    res.status(500).send({
-      message: error.message,
-    });
-  }
+}
+
+async function userInfo(req, res) {
+    const id = req.user._id;
+    try {
+        const user = await userModel.findById(id);
+        if (!user) {
+            res.status(404).json({ msg: "User not found", success: false });
+        } else {
+            res.status(200).json({ user, success: true });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message, success: false });
+    }
 }
 
 module.exports = {
-  register,
-  login,
+    register,
+    login,
+    userInfo,
 };
