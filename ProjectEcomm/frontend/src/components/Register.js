@@ -18,7 +18,7 @@ const Register = () => {
   async function register(payload) {
     try {
       console.log("axios Payload",payload)
-      await axios.post("http://localhost:4000/api/users/register", payload)
+      await axios.post("http://localhost:5001/api/users/register", payload)
       .then(response => {
       if(response.data.success) {
       console.log("response data",response.data);
