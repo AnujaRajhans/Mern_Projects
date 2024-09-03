@@ -1,6 +1,5 @@
 const userModel = require('../models/userModel');
 const jwt = require('jsonwebtoken');
-
 async function register(req, res) {
     const { name, email, password, mobile_number, role } = req.body;
     try {
@@ -31,7 +30,7 @@ async function login(req, res) {
             return res.status(400).json({ error: "Invalid Email or Password" });
         }
         const token = jwt.sign({ _id: user._id, role: user.role }, 'your_jwt_secret_key', { expiresIn: '1h' });
-        res.status(200).json({ user, access: token, success: true });
+        res.status(200).json({ user, token: token, success: true });
     } catch (error) {
         res.status(500).json({ message: error.message, success: false });
     }

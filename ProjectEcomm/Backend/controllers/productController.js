@@ -105,22 +105,54 @@
 //     getAllProducts,
 //     getProductId
 // }
-const Product = require('../models/productModel');
-exports.getProducts = async (req, res) => {
+const productModel = require('../models/productModel');
+const caegoryModel = require("../models/categoryModel")
+async function getProducts  (req, res)  {
     try {
-        const products = await Product.find();
+        const products = await productModel.find();
         res.status(200).json({ products });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
-exports.addProduct = async (req, res) => {
-    const { name, price, category } = req.body;
+async function addproduct(req, res) {
+    console.log(req.body);
+    const userid = req.user._id;
+    const {
+      productname,
+      category,
+      price,
+      available,
+      quantity,
+      createdBy
+    } = req.body; 
     try {
-        const product = new Product({ name, price, category });
-        await product.save();
-        res.status(201).json({ product });
+      const existingProduct = await productModel.findOne({
+        productname
+      });
+      if (!existingProduct) {
+        return res.status(400).json({ msg: "Product already exists" });
+      }
+      const newProduct = new productModel({
+        productname,
+        category,
+        price,
+        available,
+        quantity,
+        createdBy:userid,
+        
+      });
+  
+      await newProduct.save();
+      res.send({ msg: "Product created successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+      console.error(error);
+      res.status(500).send("Server Error");
     }
-};
+  }
+
+  module.exports = {
+    addproduct,
+    getProducts
+    
+  }

@@ -1,95 +1,87 @@
-// const categoryModel= require("../models/categoryModel");
+const mongoose = require("mongoose");
 
-// async function addCategory(req,res){
-//     console.log(req.body);
-//     const {categoryName,createdBy}= req.body;
-//     try{
-//         const existingCategory= await categoryModel.findOne({categoryName});
-//         if(existingCategory){
-//             return res.status(400).json({message: "Category already exists"});
-//         }
-//         else{
-//             const newCategory= new categoryModel({categoryName,createdBy});
-//             await newCategory.save();
-//             return res.status(201).json({message: "Category added successfully"});
-//         }
-//     }
-//     catch(error){
-//         console.error(error);
-//         return res.status(500).json({message: "Server error"});
-//     }
-// }
+const categorymodel = require("../models/categoryModel");
 
-//     async function getCategory(req, res){
-//         console.log(req.body);
-//         try{
-//             const categories= await categoryModel.find({});
-//             return res.status(200).json(categories);
-//         }
-//         catch(error){
-//             console.error(error);
-//             return res.status(500).json({message: "Server error"});
-//         }
-//     }
+async function addcategory(req, res) {
+  console.log(req.body);
+  const { categoryname, createdBy } = req.body;
+  try {
+    const existingcategory = await categorymodel.findOne({ categoryname });
+    if (existingcategory) {
+      return res.status(400).json({ message: "Category Already Exists" });
+    } else {
+      const newcategory = new categorymodel({
+        categoryname,
+        createdBy,
+        createdAt: Date.now(),
+      });
+      await newcategory.save();
+      res.status(201).json({ message: "Category Added Sucessfully" });
+    }         
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
 
-//     async function deleteCategory(req, res){
-//         console.log(req.body);
-//         const {id}= req.params;
-//         try{
-//             const deletedCategory= await categoryModel.findByIdAndDelete(id);
-//             if(!deletedCategory){
-//                 return res.status(404).json({message: "Category not found"});
-//             }
-//             else{
-//                 return res.status(200).json({message: "Category deleted successfully"});
-//             }
-//         }
-//         catch(error){
-//             console.error(error);
-//             return res.status(500).json({message: "Server error"});
-//         }
-//     }
-    
-//     async function updateCategory(req, res){
-//         console.log(req.body);
-//         const {id}= req.params;
-//         const {categoryName,updatedBy}= req.body;
-//         try{
-//             const updatedCategory= await categoryModel.findByIdAndUpdate(id,{categoryName,updatedBy},{new: true});
-//             if(!updatedCategory){
-//                 return res.status(404).json({message: "Category not found"});
-//             }
-//             else{
-//                 return res.status(200).json({message: "Category updated successfully",updatedCategory});
-//             }
-//         }
-//         catch(error){
-//             console.error(error);
-//             return res.status(500).json({message: "Server error"});
-//         }
-//     }
-
-// module.exports={addCategory,
-//     getCategory,
-//     deleteCategory,
-//     updateCategory
-// };
-const Category = require('../models/categoryModel');
-exports.getCategories = async (req, res) => {
-    try {
-        const categories = await Category.find();
-        res.status(200).json({ categories });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+async function getcategorybyid(req, res) {
+  console.log(req.body);
+  const { id } = req.params;
+  try {
+    const category = await categorymodel.findById(id);
+    console.log(id);
+    if (!category) {
+      res.status(404).send({ msg: "category id is not found" });
     }
-};
-exports.addCategory = async (req, res) => {
-    const { name } = req.body;
-    try {
-        const category = new Category({ name });
-        await category.save();
-        res.status(201).json({ category });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    return res.status(201).send({ msg: "This is category", product });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}
+async function getcategory(req, res) {
+  try {
+    const category = await categorymodel.find();
+    res.status(201).send({ category: category });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
+async function deletecategory(req, res) {
+  console.log(req.body);
+  const { id } = req.params;
+  try {
+    const category = await categorymodel.findByIdAndDelete(id);
+    if (!category) {
+      res.status(404).json({ message: "Category Not Found" });
     }
+    res.status(201).json({ message: "Category Deleted Sucessfully" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+async function updatecategory(req, res) {
+  console.log(req.body);
+  const { categoryname, createdBy } = req.body;
+  const { id } = req.params;
+
+  try {
+    const category = await categorymodel.findByIdAndUpdate(id);
+    if (!category) {
+      res.status(404).json({ message: "Category Not Found" });
+    }
+    category.categoryname = categoryname || category.categoryname;
+    category.createdBy = createdBy || category.createdBy;
+    await category.save();
+    res.status(201).send({ message: "Category Updated Sucessfully" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
+module.exports = {
+  addcategory,
+  getcategorybyid,
+  getcategory,
+  updatecategory,
+  deletecategory,
 };
