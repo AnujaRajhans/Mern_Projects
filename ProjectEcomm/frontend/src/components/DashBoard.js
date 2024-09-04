@@ -6,6 +6,7 @@ import { FaUser, FaEnvelope, FaUserTag, FaTimes, FaBars } from "react-icons/fa";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import AddProduct from "./product/AddProduct";
 import AddCategory from "./category/AddCategory";
+import Cart from "./Cart/Cart";
 const Dashboard = () => {
   const [user, setUser] = useState({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,12 +45,12 @@ const Dashboard = () => {
         <hr />
         <div className="container">
           <ul>
-            <Link to={"Products"}>
+            <Link to={"products"}>
               <Button variant="outline-success">Products</Button>
             </Link>
             {user.role === "admin" && (
               <>
-                <Link to={"addproduts"}>
+                <Link to={"addproducts"}>
                   <Button variant="outline-success">Add Products</Button>
                 </Link> 
                 <Link to={"addcategory"}>
@@ -68,11 +69,9 @@ const Dashboard = () => {
       </>
     );
   };
-
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
   };
-
   return (
     <Container fluid className="d-flex p-0">
       <Row className="flex-nowrap w-100">
@@ -120,10 +119,10 @@ const Dashboard = () => {
           }}
         >
           <Routes>
-            <Route path="Products" element={<h1>Products</h1>} />
+            <Route path="Products" element={<Cart/>} />
             <Route path="Category" element={<h1>Category</h1>} />
             <Route path="Cart" element={<h1>Cart</h1>} />   
-            <Route path="addproduts" element={<AddProduct />} />
+            <Route path="addproducts" element={<AddProduct />} />
             <Route path="addcategory" element={<AddCategory />} />
             <Route
               path="/"
