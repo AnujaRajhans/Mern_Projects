@@ -1,43 +1,51 @@
-import React, { useState } from 'react'
-import { ToastContainer,toast } from 'react-toastify';
-import {Form,Button,Alert,Container} from 'react-bootstrap';
-import axios from "axios";
+
+import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
+import axios from 'axios';
+
 const AddCategory = () => {
-    const [categoryname,setcategoryname]= useState("");
-    const [error,seterror]  = useState(null);
-    const [success,setsuccess] = useState(false);
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const token = localStorage.getItem("token");
-      if (!token) {
-        seterror("User is not authenticated");
-        toast.error("User is not authenticated");
-        return;
-      }  
-      try {
-        await axios.post(
-          "http://localhost:5001/api/addcategory",
-          { categoryname },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );  
-        setsuccess("Category added successfully!");
-        toast.success("Category added successfully!");
-        setcategoryname("");
-        seterror(null);
-      } catch (err) {
-        seterror("Error adding category. Please try again.");
-        toast.error("Error adding category. Please try again.");
-        setsuccess(null);
-      }
-    }; 
-    const handleDismiss = () => {
-      seterror(null);
-      setsuccess(null);
-    };
+  const [categoryname, setCategoryname] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setError("User is not authenticated");
+      toast.error("User is not authenticated");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5001/api/addcategory",
+        { categoryname },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setSuccess("Category added successfully!");
+      toast.success("Category added successfully!");
+      setCategoryname("");
+      setError(null);
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || "Error adding category. Please try again.";
+      setError(errorMessage);
+      toast.error(errorMessage);
+      setSuccess(null);
+    }
+  };
+
+  const handleDismiss = () => {
+    setError(null);
+    setSuccess(null);
+  };
+
   return (
     <Container>
       <h2>Add Category</h2>
@@ -47,7 +55,7 @@ const AddCategory = () => {
           <Form.Control
             type="text"
             value={categoryname}
-            onChange={(e) => setcategoryname(e.target.value)}
+            onChange={(e) => setCategoryname(e.target.value)}
             required
           />
         </Form.Group>
@@ -67,7 +75,7 @@ const AddCategory = () => {
       </Form>
       <ToastContainer />
     </Container>
-  )
+  );
 }
 
-export default AddCategory
+export default AddCategory;
