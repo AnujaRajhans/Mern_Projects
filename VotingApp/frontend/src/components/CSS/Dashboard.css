@@ -1,0 +1,120 @@
+.vote-container {
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000;
+    color: white;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Navbar styles */
+  .navbar-D {
+    font-family: DM Serif Display;
+    font-size: 100px;
+    font-weight: 500;
+    line-height: 34.28px;
+    text-align: left;
+    position: absolute;
+    top: 70px;
+    right: 250px;
+  }
+  
+  .navbar-links-d {
+    display: flex;
+    list-style-type: none;
+    gap: 20px;
+  }
+  
+  .navbar-links-d li {
+    display: inline;
+  }
+  
+  .navbar-links-d a {
+
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .login-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  /* Main content styles */
+  .vote-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 80%;
+    margin-right:30px;
+    margin-top: 25px;
+  }
+  
+  .vote-image img {
+  width: 400px; 
+  height: 400px; 
+  overflow: hidden; 
+  }
+  .zoom-img{
+    width: 100%;
+    height: 100%;
+    transform: scale(1.5); 
+    object-fit: cover;
+  }
+  
+  .vote-text h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .vote-text h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+    color: #007bff;
+  }
+  
+  /* Buttons container */
+  .vote-buttons {
+    display: flex; /* Ensures buttons are aligned side by side */
+    gap: 20px; /* Adds space between the buttons */
+  }
+  
+  .vote-buttons .btn {
+    width: 150px;  /* Set button width */
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: white; 
+  }
+  
+  .register-btn, .readmore-btn {
+    background-color: #007bff;
+  }
+  
+  .register-btn:hover, .readmore-btn:hover {
+    background-color: #0056b3; /* Slightly darker on hover for a better effect */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .vote-content {
+      flex-direction: column;
+    }
+  
+    .vote-buttons {
+      flex-direction: column; /* Stack buttons vertically on smaller screens */
+      width: 100%; /* Ensure buttons take full width on smaller screens */
+    }
+  
+    .vote-buttons .btn {
+      width: 100%; /* Full-width buttons for mobile */
+    }
+  }

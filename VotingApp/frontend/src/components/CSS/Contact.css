@@ -1,0 +1,54 @@
+.footer-section {
+    background-color: #121c33;
+    padding: 30px 20px;
+    color: #007bff;
+    display: flex;
+    flex-wrap: wrap; /* Allows the footer to wrap on smaller screens */
+    justify-content: space-between;
+    margin-top: 100px;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Full width for the content */
+  }
+  
+  .footer-column {
+    flex: 1 1 30%; /* Flex basis for three columns */
+    margin: 10px;
+    min-width: 200px; /* Minimum width for columns */
+  }
+  
+  .footer-column a {
+    display: block;
+    color: #007bff;
+    margin: 10px 0;
+  }
+  
+  /* Quick Feedback Section Styles */
+  .quick-feedback input,
+  .quick-feedback textarea {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  .quick-feedback button {
+    float: right;
+  }
+  
+  .copyright {
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+  }
+  
+  /* Media Queries for Responsiveness */
+  @media (max-width: 768px) {
+    .footer-column {
+      flex: 1 1 100%; /* Stack columns on smaller screens */
+      margin: 10px 0; /* Margin adjustment */
+    }
+  }

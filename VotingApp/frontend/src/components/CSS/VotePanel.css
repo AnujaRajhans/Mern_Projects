@@ -1,0 +1,74 @@
+.voting-panel-container {
+    background-color: #0b213e;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 1000px;
+    margin: auto;
+    margin-top: 100px;
+  }
+  
+  .voting-panel-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .selected-candidate-card {
+    background-color: #1a2b4a;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .candidate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .candidate-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .candidate-name {
+    font-weight: bold;
+  }
+  
+  .candidate-party {
+    color: #ccc;
+  }
+  
+  .candidate-info p {
+    margin: 5px 0;
+  }
+  
+  .candidate-selection {
+    margin-top: 20px;
+  }
+  
+  .candidate-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: white;
+    color: black;
+  }
+  
+  .candidate-option input[type="radio"] {
+    margin-right: 10px;
+  }
+  
+  .confirm-checkbox {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .confirm-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+  }
