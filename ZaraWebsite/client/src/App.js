@@ -15,7 +15,6 @@ const Container = styled.div`
   overflow-y: hidden;
   transition: all 0.2s ease;
 `;
-
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
